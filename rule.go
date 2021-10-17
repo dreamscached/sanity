@@ -27,15 +27,15 @@ func Replace(substringsAndRepl ...string) Rule {
 
 	lm1 := len(substringsAndRepl) - 1
 	repl := substringsAndRepl[lm1]
+	str := substringsAndRepl[:lm1]
 
-	args := make([]string, lm1*2)
-	for i := 0; i < lm1; i++ {
-		j := i * 2
-		args[j], args[j+1] = substringsAndRepl[i], repl
+	return func(in string) string {
+		for _, s := range str {
+			in = strings.ReplaceAll(in, s, repl)
+		}
+
+		return in
 	}
-
-	rc := strings.NewReplacer(args...)
-	return func(in string) string { return rc.Replace(in) }
 }
 
 // Strip is a convenience call to Replace with last argument being an empty string.
@@ -57,7 +57,7 @@ func ReplaceRegexp(patternsAndRepl ...string) Rule {
 	pats := make([]*regexp.Regexp, lm1)
 	for i := 0; i < lm1; i++ {
 		var err error
-		pats[i], err = regexp.Compile(patternsAndRepl[0])
+		pats[i], err = regexp.Compile(patternsAndRepl[i])
 		if err != nil {
 			panic("rule.ReplaceRegexp: invalid pattern: " + err.Error())
 		}
