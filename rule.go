@@ -2,7 +2,6 @@ package main
 
 import (
 	"regexp"
-	"sort"
 	"strings"
 
 	"github.com/aquilax/truncate"
@@ -123,17 +122,17 @@ func StripRange(ranges ...int32) Rule {
 	}
 }
 
-type runeSlice []rune
-
 // StripRune removes the provided runes from the input string.
 func StripRune(runes ...rune) Rule {
-	l := len(runes)
-	rs := runeSlice(runes)
+	rm := make(map[rune]struct{}, len(runes))
+	for _, r := range runes {
+		rm[r] = struct{}{}
+	}
 
 	return func(in string) string {
 		b := &strings.Builder{}
 		for _, c := range in {
-			if l == sort.Search(l, func(i int) bool { return rs[i] == c }) {
+			if _, ok := rm[c]; !ok {
 				b.WriteRune(c)
 			}
 		}
