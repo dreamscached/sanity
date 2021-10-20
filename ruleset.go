@@ -1,4 +1,4 @@
-package main
+package sanity
 
 // Ruleset represents string sanitization rule set.
 type Ruleset []Rule

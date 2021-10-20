@@ -14,15 +14,15 @@ package main
 import (
 	"fmt"
 
-	"github.com/dreamscached/sanity"
+	"github.com/dreamscached/sanity/filename"
 )
 
 func main() {
 	// Prints 'con_.txt' if on Windows
-	fmt.Println(sanity.Default.Sanitize("con.txt"))
+	fmt.Println(filename.Sanitize("con.txt"))
 
 	// Prints 'foobar' if on Linux/Darwin
-	fmt.Println(sanity.Default.Sanitize("foo\x00bar.txt"))
+	fmt.Println(filename.Sanitize("foo\x00bar.txt"))
 }
 ```
 
@@ -39,7 +39,7 @@ import (
 	"github.com/aquilax/truncate"
 )
 
-var Default = sanity.New(
+var ruleset = sanity.New(
 	sanity.Replace("/", " "),
 	sanity.StripRune(0x0),
 	sanity.Truncate(255, truncate.DEFAULT_OMISSION, truncate.PositionEnd),

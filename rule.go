@@ -1,4 +1,4 @@
-package main
+package sanity
 
 import (
 	"regexp"
