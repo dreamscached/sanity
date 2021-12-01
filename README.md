@@ -18,11 +18,11 @@ import (
 )
 
 func main() {
-	// Prints 'con_.txt' if on Windows
-	fmt.Println(filename.Sanitize("con.txt"))
+	// Prints 'con_.txt'
+	fmt.Println(filename.Windows.Sanitize("con.txt"))
 
-	// Prints 'foobar' if on Linux/Darwin
-	fmt.Println(filename.Sanitize("foo\x00bar.txt"))
+	// Prints 'foobar'
+	fmt.Println(filename.Unix.Sanitize("foo\x00bar.txt"))
 }
 ```
 
@@ -39,7 +39,7 @@ import (
 	"github.com/aquilax/truncate"
 )
 
-var ruleset = sanity.New(
+var Unix = sanity.New(
 	sanity.Replace("/", " "),
 	sanity.StripRune(0x0),
 	sanity.Truncate(255, truncate.DEFAULT_OMISSION, truncate.PositionEnd),
