@@ -1,6 +1,3 @@
-//go:build windows
-// +build windows
-
 package filename
 
 import (
@@ -11,7 +8,7 @@ import (
 	"github.com/dreamscached/sanity"
 )
 
-var ruleset = sanity.New(
+var Windows = sanity.New(
 	sanity.Replace("/", "?", "<", ">", `\`, ":", "*", "|", `"`, " "),
 	sanity.StripRange(0x0, 0x1f, 0x80, 0x9f),
 	sanity.ReplaceRegexp("[. ]+$", "$0_"),
